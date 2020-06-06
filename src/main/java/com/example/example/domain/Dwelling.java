@@ -16,6 +16,7 @@ public class Dwelling {
     private String nickname;
     private Long buildingNumber;
     private Long unitNumber;
+    private Long roomNumber;
     private Long numberOfPeople;
     private Double area;
     private Date addTime;
