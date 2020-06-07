@@ -86,4 +86,42 @@ public class UserController {
         }
         return send;
     }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public JSONObject login(@RequestBody JSONObject receive) {
+        JSONObject send = new JSONObject();
+        String username = receive.getString("username");
+        String password = receive.getString("password");
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        if (userService.selectOne(user)) {
+            send.put("status", 1);
+        } else {
+            send.put("status", 0);
+            send.put("errorMessage", "No found.");
+        }
+        return send;
+    }
+
+    @PostMapping("/register")
+    @ResponseBody
+    public JSONObject register(@RequestBody JSONObject receive) {
+        JSONObject send = new JSONObject();
+        String username = receive.getString("username");
+        String password = receive.getString("password");
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        if (userService.selectOne(user)) {
+            // user exist
+            send.put("status", 0);
+            send.put("error", "User already exist.");
+        } else {
+            userService.insert(user);
+            send.put("status", 1);
+        }
+        return send;
+    }
 }
