@@ -41,8 +41,9 @@ public class NewsController {
     @ResponseBody
     public JSONObject get(@RequestBody JSONObject receive) {
         JSONObject send = new JSONObject();
-        // receive content
+        Long id = receive.getLong("id");
         News news = new News();
+        news.setId(id);
         if (newsService.selectOne(news)) {
             send.put("status", 1);
             send.put("news", news);
@@ -67,6 +68,15 @@ public class NewsController {
             send.put("status", 1);
             send.put("newsList", newsList);
         }
+        return send;
+    }
+
+    @GetMapping("/get_all")
+    @ResponseBody
+    public JSONObject getAll() {
+        JSONObject send = new JSONObject();
+        List<News> newsList = newsService.selectAll();
+        send.put("newsList", newsList);
         return send;
     }
 

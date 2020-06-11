@@ -113,15 +113,16 @@ public class UserController {
         String password = receive.getString("password");
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password);
+
         if (userService.selectOne(user)) {
             // user exist
             send.put("status", 0);
-            send.put("error", "User already exist.");
-        } else {
-            userService.insert(user);
-            send.put("status", 1);
+            send.put("errorMessage", "User already exist.");
+            return send;
         }
+        user.setPassword(password);
+        userService.insert(user);
+        send.put("status", 1);
         return send;
     }
 }
