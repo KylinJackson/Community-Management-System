@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -19,8 +20,17 @@ public class RepairController {
     @ResponseBody
     public JSONObject add(@RequestBody JSONObject receive) {
         JSONObject send = new JSONObject();
-        // receive content
+        Long userId = receive.getLong("userId");
+        String title = receive.getString("title");
+        String content = receive.getString("content");
+        String progress = "待处理";
+        Date addTime = new Date();
         Repair repair = new Repair();
+        repair.setUserId(userId);
+        repair.setTitle(title);
+        repair.setContent(content);
+        repair.setProgress(progress);
+        repair.setAddTime(addTime);
         repairService.insert(repair);
         send.put("status", 1);
         return send;
